@@ -1,0 +1,246 @@
+import { useEffect, useState } from "react";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ReadOutlined,
+  UserOutlined,
+  TeamOutlined,
+  IdcardOutlined,
+} from "@ant-design/icons";
+import { Button, Layout, Menu, theme, Dropdown, Breadcrumb } from "antd";
+import avatar from "../assets/img/avatar001.png";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/reducer/authSlice";
+
+const { Header, Sider, Content } = Layout;
+
+//MARK: 下拉菜单的数据
+const items = [
+  {
+    key: "userProfile",
+    label: <a href="/profile">用户信息</a>,
+  },
+  {
+    key: "logout",
+    label: <a href="/">Logout</a>,
+  },
+];
+
+//MARK: sidebar菜单数据
+const siderMenu = [
+  {
+    key: "/student_manage",
+    icon: <UserOutlined />,
+    label: "学生管理",
+    children: [
+      {
+        key: "/student_manage/student_type",
+        label: "学生分类",
+      },
+      {
+        key: "/student_manage/student_list",
+        label: "学生列表",
+      },
+    ],
+  },
+  {
+    key: "/class_manage",
+    icon: <TeamOutlined />,
+    label: "班级管理",
+    children: [
+      {
+        key: "/class_manage/class_type",
+        label: "班级分类",
+      },
+      {
+        key: "/class_manage/class_list",
+        label: "班级列表",
+      },
+    ],
+  },
+  {
+    key: "/course_manage",
+    icon: <ReadOutlined />,
+    label: "课程管理",
+  },
+  {
+    key: "/profile",
+    icon: <IdcardOutlined />,
+    label: "用户信息",
+  },
+];
+
+//MARK:生成面包屑导航
+const createNavFn = (key) => {
+  let arrObj = [];
+  const demoFN = (arr) => {
+    arr.forEach((items) => {
+      const { children, ...info } = items;
+      arrObj.push(info);
+      if (items.children) {
+        demoFN(children);
+      }
+    });
+  };
+  demoFN(siderMenu);
+  //过滤数据
+  const temp = arrObj.filter((item) => key.includes(item.key));
+  if (temp.length > 0) {
+    return [{ label: "首页", key: "/student_manage/student_type" }, ...temp];
+  } else {
+    return [];
+  }
+};
+
+//MARK:下拉菜单的折叠及默认选中
+const searchUrlKey = (key) => {
+  const arrObj = [];
+  const demoFN = (_arr) => {
+    _arr.forEach((item) => {
+      if (key.includes(item.key)) {
+        arrObj.push(item.key);
+        //判断当前节点有没有子节点
+        if (item.children) {
+          demoFN(item.children);
+        }
+      }
+    });
+  };
+  demoFN(siderMenu);
+  return arrObj;
+};
+
+const MyLayout = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //MARK:下拉菜单点击事件
+  const onClick = ({ key }) => {
+    // console.log(key);
+    if (key === "logout") {
+      dispatch(logout());
+      // 跳转到登出页
+      navigate("/");
+    }
+  };
+
+  //处理用户信息的显示
+
+  const { pathname } = useLocation();
+  const demoItemsArr = searchUrlKey(pathname);
+
+  //MARK: 面包屑导航条
+  const [nav_url, setNav_url] = useState([]);
+
+  //MARK: 面包屑导航的回调、监听 createNavFn
+  useEffect(() => {
+    // console.log(pathname);
+    setNav_url(createNavFn(pathname));
+  }, [pathname]);
+
+  //面包屑导航数据
+  const breadcrumbItems = nav_url.map((item) => {
+    return {
+      href: item.key,
+      title: item.label,
+    };
+  });
+
+  const menuClick = (e) => {
+    // console.log("Navigate to:", e.key);
+    navigate(e.key);
+  };
+
+  //MARK:设置展开项的初始值
+  const [openKeys, setOpenKeys] = useState(demoItemsArr);
+  const handleOpenChange = (keys) => {
+    //key数组记录了当前展开的菜单
+    // console.log("onOpenChange", keys);
+    //数组修改成最后一项，就是刚刚点开的这一项，只要一项
+    setOpenKeys([keys[keys.length - 1]]);
+  };
+
+  return (    
+      <Layout style={{ width: "100vw", height: "100vh" }}>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div className="logoAvatar">
+            <img
+              style={{
+                display: "block",
+                width: "50%",
+                borderRadius: "15px",
+                margin: "20px auto",
+              }}
+              src={avatar}
+              alt="avatar"
+            />
+          </div>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={demoItemsArr}
+            onClick={menuClick}
+            items={siderMenu}
+            //菜单展开和回收的事件
+            onOpenChange={handleOpenChange}
+            //当前展开项的数组
+            openKeys={openKeys}
+          />
+        </Sider>
+        <Layout>
+          <Header style={{ padding: 0, background: colorBgContainer }}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: "16px",
+                width: 64,
+                height: 64,
+              }}
+            />
+            <span style={{ fontSize: "1.2rem", marginLeft: "1rem" }}>
+              学生管理系统
+            </span>
+            <Dropdown menu={{ items, onClick }}>
+              <img
+                src={avatar}
+                style={{
+                  width: "30px",
+                  borderRadius: "100%",
+                  float: "right",
+                  marginRight: "20px",
+                  marginTop: "20px",
+                }}
+                alt="DropdownPic"
+              />
+            </Dropdown>
+          </Header>
+          <Content
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: 280,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Breadcrumb
+              style={{ margin: "0 0 20px 0" }}
+              items={breadcrumbItems}
+            />
+            <Outlet />
+          </Content>
+        </Layout>
+      </Layout>   
+  );
+};
+
+export default MyLayout;

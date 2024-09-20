@@ -1,0 +1,29 @@
+//登录页面的SVG背景
+.wrap_container {
+  position: relative;
+  height: 100vh;
+  background-image: url("../assets/LoginBG01.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  //登录页面的半透明白背景
+  .whiteBg {
+    width: 95vw;
+    height: 90vh;
+    background-color: #fff;
+    opacity: 0.85;
+    margin: 5vh auto;
+    border-radius: 20px;
+    background-image: url("../assets/LOGO.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 40%;
+  }
+  //登陆框的样式
+  .login_wrapper {
+    position: absolute;    
+    top: 5vh;
+    right: 18vw;
+  }
+}
