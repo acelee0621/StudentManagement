@@ -1,8 +1,6 @@
 # StudentManagement
 
- 学习React中...
-
-
+ 基于兴趣，业余时间学习前端，目前正在学习React中...
 
 根据教程及自己修改，制作了一个基础的学生管理应用。
 
@@ -10,4 +8,8 @@
 
 学生列表从Strapi上获取学生信息并呈现，通过RTKQ实现了基本的增删改查功能，并将结果上传至服务器。
 
-主要用到antd、Strapi v5、React18、RTKQ、React-router v6。
+主要用到antd、Strapi v5、React18、RTKQ、React-router v6、Scass。
+
+
+
+以上学习感谢  李立超、老尚带你学前端、写React的柴柴三位老师在B站的视频课程。
