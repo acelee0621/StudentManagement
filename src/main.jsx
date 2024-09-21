@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import "antd/dist/reset.css";
-import "./index.scss";
 import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { RouterProvider } from "react-router-dom";

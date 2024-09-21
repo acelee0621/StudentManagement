@@ -4,7 +4,7 @@ import ClassType from "../pages/ClassType";
 import CourseManage from "../pages/CourseManage";
 import StudentList from "../pages/StudentList";
 import StudentType from "../pages/StudentType";
-import MyLayout from "../components/MyLayout";
+import MyLayout from "../pages/MyLayout";
 import Login from "../pages/Login";
 import Auth from "../components/Auth";
 import UserProfile from "../pages/UserProfile";
