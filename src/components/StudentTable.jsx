@@ -123,7 +123,7 @@ const StudentTable = () => {
           ...row,
         });        
         updateStudent(newData[index]).then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.error) {
             messageApi.open({
               type: "error",
@@ -166,7 +166,7 @@ const StudentTable = () => {
         style={{
           padding: 8,
         }}
-        onKeyDown={(e) => e.stopPropagation()}
+        onKeyDown={(event) => event.stopPropagation()}
       >
         <Input
           ref={searchInput}

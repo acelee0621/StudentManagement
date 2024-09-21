@@ -15,8 +15,7 @@ import { logout } from "../store/reducer/authSlice";
 
 const { Header, Sider, Content } = Layout;
 
-//MARK: 下拉菜单的数据
-const items = [
+const dropdownMenuItems = [
   {
     key: "userProfile",
     label: <a href="/profile">用户信息</a>,
@@ -27,8 +26,7 @@ const items = [
   },
 ];
 
-//MARK: sidebar菜单数据
-const siderMenu = [
+const sideBarMenuItems = [
   {
     key: "/student_manage",
     icon: <UserOutlined />,
@@ -71,19 +69,19 @@ const siderMenu = [
   },
 ];
 
-//MARK:生成面包屑导航
-const createNavFn = (key) => {
+//生成面包屑导航数据
+const createBreadcrumbNavItemFn = (key) => {
   let arrObj = [];
-  const demoFN = (arr) => {
+  const tempRecursionFn = (arr) => {
     arr.forEach((items) => {
       const { children, ...info } = items;
       arrObj.push(info);
       if (items.children) {
-        demoFN(children);
+        tempRecursionFn(children);
       }
     });
   };
-  demoFN(siderMenu);
+  tempRecursionFn(sideBarMenuItems);
   //过滤数据
   const temp = arrObj.filter((item) => key.includes(item.key));
   if (temp.length > 0) {
@@ -95,20 +93,20 @@ const createNavFn = (key) => {
 
 //MARK:下拉菜单的折叠及默认选中
 const searchUrlKey = (key) => {
-  const arrObj = [];
-  const demoFN = (_arr) => {
+  const tempArray = [];
+  const tempRecursionFn = (_arr) => {
     _arr.forEach((item) => {
       if (key.includes(item.key)) {
-        arrObj.push(item.key);
+        tempArray.push(item.key);
         //判断当前节点有没有子节点
         if (item.children) {
-          demoFN(item.children);
+          tempRecursionFn(item.children);
         }
       }
     });
   };
-  demoFN(siderMenu);
-  return arrObj;
+  tempRecursionFn(sideBarMenuItems);
+  return tempArray;
 };
 
 const MyLayout = () => {
@@ -142,7 +140,7 @@ const MyLayout = () => {
   //MARK: 面包屑导航的回调、监听 createNavFn
   useEffect(() => {
     // console.log(pathname);
-    setNav_url(createNavFn(pathname));
+    setNav_url(createBreadcrumbNavItemFn(pathname));
   }, [pathname]);
 
   //面包屑导航数据
@@ -153,18 +151,16 @@ const MyLayout = () => {
     };
   });
 
-  const menuClick = (e) => {
-    // console.log("Navigate to:", e.key);
-    navigate(e.key);
+  const menuClick = (event) => {    
+    navigate(event.key);
   };
 
   //MARK:设置展开项的初始值
   const [openKeys, setOpenKeys] = useState(demoItemsArr);
-  const handleOpenChange = (keys) => {
-    //key数组记录了当前展开的菜单
-    // console.log("onOpenChange", keys);
-    //数组修改成最后一项，就是刚刚点开的这一项，只要一项
-    setOpenKeys([keys[keys.length - 1]]);
+  const handleOpenChange = (itemKeys) => {
+    //itemKeys记录了当前展开的菜单
+    // console.log("onOpenChange", itemKeys);    
+    setOpenKeys([itemKeys[itemKeys.length - 1]]);
   };
 
   return (    
@@ -187,10 +183,8 @@ const MyLayout = () => {
             mode="inline"
             defaultSelectedKeys={demoItemsArr}
             onClick={menuClick}
-            items={siderMenu}
-            //菜单展开和回收的事件
-            onOpenChange={handleOpenChange}
-            //当前展开项的数组
+            items={sideBarMenuItems}            
+            onOpenChange={handleOpenChange}            
             openKeys={openKeys}
           />
         </Sider>
@@ -209,7 +203,7 @@ const MyLayout = () => {
             <span style={{ fontSize: "1.2rem", marginLeft: "1rem" }}>
               学生管理系统
             </span>
-            <Dropdown menu={{ items, onClick }}>
+            <Dropdown menu={{ dropdownMenuItems, onClick }}>
               <img
                 src={avatar}
                 style={{
