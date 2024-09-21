@@ -203,7 +203,7 @@ const MyLayout = () => {
             <span style={{ fontSize: "1.2rem", marginLeft: "1rem" }}>
               学生管理系统
             </span>
-            <Dropdown menu={{ dropdownMenuItems, onClick }}>
+            <Dropdown menu={{ items:dropdownMenuItems, onClick }}>
               <img
                 src={avatar}
                 style={{
