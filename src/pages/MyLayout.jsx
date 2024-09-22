@@ -14,8 +14,6 @@ import DropdownMenu from "../components/MyLayout/DropdownMenu";
 
 const { Header, Sider, Content } = Layout;
 
-
-
 const sideBarMenuItems = [
   {
     key: "/student_manage",
@@ -107,7 +105,7 @@ const MyLayout = () => {
   } = theme.useToken();
 
   const navigate = useNavigate();
-  
+
   //处理用户信息的显示
   const { pathname } = useLocation();
   const demoItemsArr = searchUrlKey(pathname);
@@ -129,7 +127,7 @@ const MyLayout = () => {
     };
   });
 
-  const menuClick = (event) => {    
+  const menuClick = (event) => {
     navigate(event.key);
   };
 
@@ -137,69 +135,69 @@ const MyLayout = () => {
   const [openKeys, setOpenKeys] = useState(demoItemsArr);
   const handleOpenChange = (itemKeys) => {
     //itemKeys记录了当前展开的菜单
-    // console.log("onOpenChange", itemKeys);    
+    // console.log("onOpenChange", itemKeys);
     setOpenKeys([itemKeys[itemKeys.length - 1]]);
   };
 
-  return (    
-      <Layout style={{ width: "100vw", height: "100vh" }}>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logoAvatar">
-            <img
-              style={{
-                display: "block",
-                width: "50%",
-                borderRadius: "15px",
-                margin: "20px auto",
-              }}
-              src={avatar}
-              alt="avatar"
-            />
-          </div>
-          <Menu
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={demoItemsArr}
-            onClick={menuClick}
-            items={sideBarMenuItems}            
-            onOpenChange={handleOpenChange}            
-            openKeys={openKeys}
-          />
-        </Sider>
-        <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-            <span style={{ fontSize: "1.2rem", marginLeft: "1rem" }}>
-              学生管理系统
-            </span>
-            <DropdownMenu/>            
-          </Header>
-          <Content
+  return (
+    <Layout style={{ width: "100vw", height: "100vh" }}>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className="logoAvatar">
+          <img
             style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              display: "block",
+              width: "50%",
+              borderRadius: "15px",
+              margin: "20px auto",
             }}
-          >
-            <Breadcrumb
-              style={{ margin: "0 0 20px 0" }}
-              items={breadcrumbItems}
-            />
-            <Outlet />
-          </Content>
-        </Layout>
-      </Layout>   
+            src={avatar}
+            alt="avatar"
+          />
+        </div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={demoItemsArr}
+          onClick={menuClick}
+          items={sideBarMenuItems}
+          onOpenChange={handleOpenChange}
+          openKeys={openKeys}
+        />
+      </Sider>
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "16px",
+              width: 64,
+              height: 64,
+            }}
+          />
+          <span style={{ fontSize: "1.2rem", marginLeft: "1rem" }}>
+            学生管理系统
+          </span>
+          <DropdownMenu />
+        </Header>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Breadcrumb
+            style={{ margin: "0 0 20px 0" }}
+            items={breadcrumbItems}
+          />
+          <Outlet />
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 
