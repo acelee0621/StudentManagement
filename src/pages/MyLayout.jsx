@@ -7,24 +7,14 @@ import {
   TeamOutlined,
   IdcardOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme, Dropdown, Breadcrumb } from "antd";
+import { Button, Layout, Menu, theme, Breadcrumb } from "antd";
 import avatar from "../assets/img/avatar001.png";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logout } from "../store/reducer/authSlice";
+import DropdownMenu from "../components/MyLayout/DropdownMenu";
 
 const { Header, Sider, Content } = Layout;
 
-const dropdownMenuItems = [
-  {
-    key: "userProfile",
-    label: <a href="/profile">用户信息</a>,
-  },
-  {
-    key: "logout",
-    label: <a href="/">Logout</a>,
-  },
-];
+
 
 const sideBarMenuItems = [
   {
@@ -117,20 +107,8 @@ const MyLayout = () => {
   } = theme.useToken();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  //MARK:下拉菜单点击事件
-  const onClick = ({ key }) => {
-    // console.log(key);
-    if (key === "logout") {
-      dispatch(logout());
-      // 跳转到登出页
-      navigate("/");
-    }
-  };
-
+  
   //处理用户信息的显示
-
   const { pathname } = useLocation();
   const demoItemsArr = searchUrlKey(pathname);
 
@@ -203,19 +181,7 @@ const MyLayout = () => {
             <span style={{ fontSize: "1.2rem", marginLeft: "1rem" }}>
               学生管理系统
             </span>
-            <Dropdown menu={{ items:dropdownMenuItems, onClick }}>
-              <img
-                src={avatar}
-                style={{
-                  width: "30px",
-                  borderRadius: "100%",
-                  float: "right",
-                  marginRight: "20px",
-                  marginTop: "20px",
-                }}
-                alt="DropdownPic"
-              />
-            </Dropdown>
+            <DropdownMenu/>            
           </Header>
           <Content
             style={{

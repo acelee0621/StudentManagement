@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Button, Form, Input, Modal, Select, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useAddStudentMutation } from "../store/api/studentApi";
-import StudentTable from "../components/StudentTable";
+import StudentTable from "../components/StudentList/StudentTable";
 
 const StudentList = () => {
   //引入信息提示

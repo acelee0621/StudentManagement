@@ -6,7 +6,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const studentApi = createApi({
   reducerPath: "studentApi", // Api的标识，不能和其他的Api或reducer重复
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:1337/api/",
+    baseUrl: "http://localhost:3000/api/",
     prepareHeaders: (headers, { getState }) => {
       //获取用户的token
       const token = getState().auth.token;

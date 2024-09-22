@@ -14,7 +14,7 @@ import {
   useGetStudentsQuery,  
   useDelStudentMutation,
   useUpdateStudentMutation,
-} from "../store/api/studentApi";
+} from "../../store/api/studentApi";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 
