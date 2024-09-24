@@ -37,11 +37,11 @@ const DropdownMenu = () => {
       <img
         src={avatar}
         style={{
-          width: "30px",
+          width: "45px",
           borderRadius: "100%",
           float: "right",
-          marginRight: "20px",
-          marginTop: "20px",
+          marginRight: "30px",
+          marginTop: "10px",
         }}
         alt="DropdownPic"
       />
